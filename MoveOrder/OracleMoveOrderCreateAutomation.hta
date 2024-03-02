@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>Move Order Creation Automation</title>
+<HTA:APPLICATION
+  APPLICATIONNAME="MoveOrderCreation"
+  BORDER="thin"
+  BORDERSTYLE="normal"
+  CAPTION="yes"
+  MAXIMIZEBUTTON="no"
+  MINIMIZEBUTTON="yes"
+  SHOWINTASKBAR="yes"
+  SINGLEINSTANCE="yes"
+  SYSMENU="yes"
+  WINDOWSTATE="normal">
+  
+<script language="VBScript">
+Sub Window_OnLoad
+    ' Set initial progress bar value
+    document.getElementById("progress").value = 0
+End Sub
+
+Sub ConfirmCreateMoveOrder
+    ' Show a confirmation message and update progress bar
+    Dim response
+    response = MsgBox("Are you Sure to Create Move Order?", vbYesNo, "Confirmation! Create Move Order")
+
+    If response = vbYes Then
+        ' Execute the batch file
+        Dim objShell
+        Set objShell = CreateObject("WScript.Shell")
+        objShell.Run """F:\Ripon\Oracle Automation\MoveOrder\OracleMoveOrderCreateAutomation.bat"""
+        Set objShell = Nothing
+        
+        ' Update progress bar to 100% after task completion
+        document.getElementById("progress").value = 100
+        
+        MsgBox "You clicked Yes! Preparing platform for crate Move Order."
+    Else
+        MsgBox "You clicked No. Nothing will be done."
+    End If
+End Sub
+</script>
+
+</head>
+<body>
+    <h1>Create Move Order?</h1>
+    <input type="button" value="Confirm" onclick="ConfirmCreateMoveOrder()">
+    <br><br>
+    <progress id="progress" value="0" max="100"></progress>
+</body>
+</html>
