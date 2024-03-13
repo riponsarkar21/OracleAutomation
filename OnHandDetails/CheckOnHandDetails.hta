@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>Download On Hand Details Automation</title>
+<HTA:APPLICATION
+  APPLICATIONNAME="DownloadOnHandDetails"
+  BORDER="thin"
+  BORDERSTYLE="normal"
+  CAPTION="yes"
+  MAXIMIZEBUTTON="no"
+  MINIMIZEBUTTON="yes"
+  SHOWINTASKBAR="yes"
+  SINGLEINSTANCE="yes"
+  SYSMENU="yes"
+  WINDOWSTATE="normal">
+  
+<script language="VBScript">
+Sub Window_OnLoad
+    ' Set initial progress bar value
+    document.getElementById("progress").value = 0
+End Sub
+
+Sub ConfirmDownloadOnHandDetails
+    ' Show a confirmation message and update progress bar
+    Dim response
+    response = MsgBox("Are you Sure to Download On Hand Details?", vbYesNo, "Confirmation! Download On Hand Details")
+
+    If response = vbYes Then
+        ' Execute the batch file
+        Dim objShell
+        Set objShell = CreateObject("WScript.Shell")
+        objShell.Run """F:\Ripon\Oracle Automation\OnHandDetails\CheckOnHandDetails.bat"""
+        Set objShell = Nothing
+        
+        ' Update progress bar to 100% after task completion
+        document.getElementById("progress").value = 100
+        
+        MsgBox "You clicked Yes! Preparing platform for Download On Hand Details."
+    Else
+        MsgBox "You clicked No. Nothing will be done."
+    End If
+End Sub
+</script>
+
+</head>
+<body>
+    <h1>Download On Hand Details?</h1>
+    <input type="button" value="Confirm" onclick="ConfirmDownloadOnHandDetails()">
+    <br><br>
+    <progress id="progress" value="0" max="100"></progress>
+</body>
+</html>
