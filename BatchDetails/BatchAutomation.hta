@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>Batch Details Confirmation</title>
+<HTA:APPLICATION
+  APPLICATIONNAME="BatchDetailsConfirmation"
+  BORDER="thin"
+  BORDERSTYLE="normal"
+  CAPTION="yes"
+  MAXIMIZEBUTTON="no"
+  MINIMIZEBUTTON="yes"
+  SHOWINTASKBAR="yes"
+  SINGLEINSTANCE="yes"
+  SYSMENU="yes"
+  WINDOWSTATE="normal">
+  
+<script language="VBScript">
+Sub Window_OnLoad
+    ' Set initial progress bar value
+    document.getElementById("progress").value = 0
+End Sub
+
+Sub ConfirmBatchDetails
+    ' Show a confirmation message and update progress bar
+    Dim response
+    response = MsgBox("Are you sure to Check Batch Details?", vbYesNo, "Batch Details Confirmation")
+
+    If response = vbYes Then
+        ' Execute the batch file
+        Dim objShell
+        Set objShell = CreateObject("WScript.Shell")
+        objShell.Run """F:\Ripon\Oracle Automation\BatchDetails\BatchAutomation.bat"""
+        Set objShell = Nothing
+        
+        ' Update progress bar to 100% after task completion
+        document.getElementById("progress").value = 100
+        
+        MsgBox "You clicked Yes! Preparing Batch Details Platform."
+    Else
+        MsgBox "You clicked No. Nothing will be done."
+    End If
+End Sub
+</script>
+
+</head>
+<body>
+    <h1>Batch Details Confirmation</h1>
+    <input type="button" value="Confirm" onclick="ConfirmBatchDetails()">
+    <br><br>
+    <progress id="progress" value="0" max="100"></progress>
+</body>
+</html>
